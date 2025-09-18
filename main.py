@@ -58,6 +58,21 @@ class DataObjectWithDifferentDates(BaseModel):
     score: Optional[float]
     description: Optional[str]
 
+# Fixed data models for consistent responses
+class FixedPaginatedResponse(BaseModel):
+    data: List[DataObject]
+    total: int
+    page: int
+    page_size: int
+    total_pages: int
+    has_next: bool
+    has_previous: bool
+
+class SimpleResponse(BaseModel):
+    data: List[DataObject]
+    message: str
+    timestamp: str
+
 class PaginatedResponse(BaseModel):
     data: List[DataObject]
     total: int
@@ -172,6 +187,260 @@ def generate_data_object_with_different_dates(id: int) -> DataObjectWithDifferen
         score=round(random.uniform(0.0, 100.0), 2) if random.choice([True, False]) else None,
         description=f"This is a sample description for user {id}" if random.choice([True, False]) else None
     )
+
+# Fixed data sets for consistent API responses
+FIXED_USERS_DATA = [
+    {
+        "id": 1,
+        "uuid": "550e8400-e29b-41d4-a716-446655440001",
+        "name": "Alice Johnson",
+        "email": "alice.johnson@example.com",
+        "age": 28,
+        "height": 165.5,
+        "weight": 58.2,
+        "is_active": True,
+        "balance": 15750.50,
+        "birth_date": "1995-03-15",
+        "created_at": "2023-01-15T09:30:00",
+        "tags": ["python", "api", "backend"],
+        "metadata": {
+            "department": "Engineering",
+            "location": "San Francisco",
+            "experience_years": 5,
+            "skills": ["Python", "FastAPI", "PostgreSQL"],
+            "certification": True,
+            "last_login": "2023-12-01T14:30:00"
+        },
+        "score": 92.5,
+        "description": "Senior Backend Developer with expertise in Python and API design"
+    },
+    {
+        "id": 2,
+        "uuid": "550e8400-e29b-41d4-a716-446655440002",
+        "name": "Bob Smith",
+        "email": "bob.smith@example.com",
+        "age": 34,
+        "height": 178.0,
+        "weight": 75.8,
+        "is_active": True,
+        "balance": 23400.75,
+        "birth_date": "1989-07-22",
+        "created_at": "2023-02-20T11:15:00",
+        "tags": ["javascript", "frontend", "react"],
+        "metadata": {
+            "department": "Engineering",
+            "location": "New York",
+            "experience_years": 8,
+            "skills": ["React", "TypeScript", "Node.js"],
+            "certification": True,
+            "last_login": "2023-12-01T16:45:00"
+        },
+        "score": 88.7,
+        "description": "Frontend Team Lead specializing in React applications"
+    },
+    {
+        "id": 3,
+        "uuid": "550e8400-e29b-41d4-a716-446655440003",
+        "name": "Carol Davis",
+        "email": "carol.davis@example.com",
+        "age": 29,
+        "height": 162.3,
+        "weight": 54.1,
+        "is_active": False,
+        "balance": 8950.25,
+        "birth_date": "1994-11-08",
+        "created_at": "2023-03-10T13:45:00",
+        "tags": ["data", "ml", "python"],
+        "metadata": {
+            "department": "Data Science",
+            "location": "London",
+            "experience_years": 4,
+            "skills": ["Python", "TensorFlow", "SQL"],
+            "certification": False,
+            "last_login": "2023-11-28T10:20:00"
+        },
+        "score": 95.2,
+        "description": "Data Scientist focused on machine learning and analytics"
+    },
+    {
+        "id": 4,
+        "uuid": "550e8400-e29b-41d4-a716-446655440004",
+        "name": "David Wilson",
+        "email": "david.wilson@example.com",
+        "age": 31,
+        "height": 183.2,
+        "weight": 82.5,
+        "is_active": True,
+        "balance": 31200.00,
+        "birth_date": "1992-05-14",
+        "created_at": "2023-04-05T08:20:00",
+        "tags": ["devops", "cloud", "security"],
+        "metadata": {
+            "department": "DevOps",
+            "location": "Berlin",
+            "experience_years": 7,
+            "skills": ["Docker", "Kubernetes", "AWS"],
+            "certification": True,
+            "last_login": "2023-12-01T09:10:00"
+        },
+        "score": 90.1,
+        "description": "DevOps Engineer with cloud infrastructure expertise"
+    },
+    {
+        "id": 5,
+        "uuid": "550e8400-e29b-41d4-a716-446655440005",
+        "name": "Emma Brown",
+        "email": "emma.brown@example.com",
+        "age": 26,
+        "height": 170.8,
+        "weight": 61.3,
+        "is_active": True,
+        "balance": 18750.80,
+        "birth_date": "1997-09-30",
+        "created_at": "2023-05-12T15:30:00",
+        "tags": ["mobile", "ios", "swift"],
+        "metadata": {
+            "department": "Mobile",
+            "location": "Tokyo",
+            "experience_years": 3,
+            "skills": ["Swift", "iOS", "Xcode"],
+            "certification": False,
+            "last_login": "2023-12-01T12:00:00"
+        },
+        "score": 86.4,
+        "description": "iOS Developer creating innovative mobile applications"
+    },
+    {
+        "id": 6,
+        "uuid": "550e8400-e29b-41d4-a716-446655440006",
+        "name": "Frank Miller",
+        "email": "frank.miller@example.com",
+        "age": 42,
+        "height": 175.5,
+        "weight": 78.9,
+        "is_active": True,
+        "balance": 45600.25,
+        "birth_date": "1981-12-03",
+        "created_at": "2023-06-18T10:45:00",
+        "tags": ["management", "leadership", "strategy"],
+        "metadata": {
+            "department": "Management",
+            "location": "San Francisco",
+            "experience_years": 15,
+            "skills": ["Leadership", "Strategy", "Agile"],
+            "certification": True,
+            "last_login": "2023-12-01T08:30:00"
+        },
+        "score": 94.8,
+        "description": "Engineering Manager with extensive leadership experience"
+    },
+    {
+        "id": 7,
+        "uuid": "550e8400-e29b-41d4-a716-446655440007",
+        "name": "Grace Lee",
+        "email": "grace.lee@example.com",
+        "age": 27,
+        "height": 158.7,
+        "weight": 52.4,
+        "is_active": False,
+        "balance": 12300.50,
+        "birth_date": "1996-04-18",
+        "created_at": "2023-07-25T14:15:00",
+        "tags": ["design", "ui", "ux"],
+        "metadata": {
+            "department": "Design",
+            "location": "New York",
+            "experience_years": 4,
+            "skills": ["Figma", "Sketch", "Prototyping"],
+            "certification": False,
+            "last_login": "2023-11-25T16:20:00"
+        },
+        "score": 89.3,
+        "description": "UX/UI Designer creating user-centered experiences"
+    },
+    {
+        "id": 8,
+        "uuid": "550e8400-e29b-41d4-a716-446655440008",
+        "name": "Henry Garcia",
+        "email": "henry.garcia@example.com",
+        "age": 35,
+        "height": 180.1,
+        "weight": 85.2,
+        "is_active": True,
+        "balance": 27850.75,
+        "birth_date": "1988-08-25",
+        "created_at": "2023-08-30T11:30:00",
+        "tags": ["database", "sql", "analytics"],
+        "metadata": {
+            "department": "Data Engineering",
+            "location": "London",
+            "experience_years": 9,
+            "skills": ["PostgreSQL", "MongoDB", "Redis"],
+            "certification": True,
+            "last_login": "2023-12-01T13:45:00"
+        },
+        "score": 91.7,
+        "description": "Database Engineer optimizing data storage and retrieval"
+    },
+    {
+        "id": 9,
+        "uuid": "550e8400-e29b-41d4-a716-446655440009",
+        "name": "Ivy Martinez",
+        "email": "ivy.martinez@example.com",
+        "age": 30,
+        "height": 166.9,
+        "weight": 59.7,
+        "is_active": True,
+        "balance": 21450.30,
+        "birth_date": "1993-02-12",
+        "created_at": "2023-09-15T09:00:00",
+        "tags": ["qa", "testing", "automation"],
+        "metadata": {
+            "department": "Quality Assurance",
+            "location": "Berlin",
+            "experience_years": 6,
+            "skills": ["Selenium", "Jest", "Cypress"],
+            "certification": True,
+            "last_login": "2023-12-01T11:15:00"
+        },
+        "score": 87.9,
+        "description": "QA Engineer ensuring software quality through automated testing"
+    },
+    {
+        "id": 10,
+        "uuid": "550e8400-e29b-41d4-a716-446655440010",
+        "name": "Jack Thompson",
+        "email": "jack.thompson@example.com",
+        "age": 33,
+        "height": 177.3,
+        "weight": 73.6,
+        "is_active": True,
+        "balance": 19875.90,
+        "birth_date": "1990-10-07",
+        "created_at": "2023-10-20T16:20:00",
+        "tags": ["security", "cybersecurity", "penetration"],
+        "metadata": {
+            "department": "Security",
+            "location": "Tokyo",
+            "experience_years": 8,
+            "skills": ["Penetration Testing", "OWASP", "Cryptography"],
+            "certification": True,
+            "last_login": "2023-12-01T15:30:00"
+        },
+        "score": 93.1,
+        "description": "Security Specialist protecting systems from cyber threats"
+    }
+]
+
+def get_fixed_data_objects(start_id: int = 1, count: int = 10) -> List[DataObject]:
+    """Get a fixed set of DataObject instances."""
+    result = []
+    for i in range(count):
+        data_index = i % len(FIXED_USERS_DATA)
+        user_data = FIXED_USERS_DATA[data_index].copy()
+        user_data["id"] = start_id + i
+        result.append(DataObject(**user_data))
+    return result
 
 @app.get("/", response_class=HTMLResponse)
 async def root():
@@ -1222,6 +1491,140 @@ async def get_data_with_date_formats(
         has_previous=page > 1
     )
 
+# Fixed data endpoints
+@app.get("/api/fixed-data", response_model=FixedPaginatedResponse)
+async def get_fixed_data(
+    page: int = Query(1, ge=1, description="Page number (starts from 1)"),
+    page_size: int = Query(10, ge=1, le=100, description="Number of items per page")
+):
+    """
+    Get paginated data with fixed, consistent responses.
+    
+    This endpoint returns the same data every time it's called, making it perfect for:
+    - Testing and development
+    - Demos and presentations  
+    - Consistent API behavior validation
+    
+    - **page**: Page number (starts from 1)
+    - **page_size**: Number of items per page (1-100)
+    
+    The data includes 10 predefined users with realistic information that never changes.
+    """
+    # Fixed total of 10 users
+    total_items = len(FIXED_USERS_DATA)
+    
+    # Calculate pagination
+    total_pages = (total_items + page_size - 1) // page_size
+    start_index = (page - 1) * page_size
+    end_index = min(start_index + page_size, total_items)
+    
+    # Get fixed data for current page
+    data = get_fixed_data_objects(start_index + 1, end_index - start_index)
+    
+    return FixedPaginatedResponse(
+        data=data,
+        total=total_items,
+        page=page,
+        page_size=page_size,
+        total_pages=total_pages,
+        has_next=page < total_pages,
+        has_previous=page > 1
+    )
+
+@app.get("/api/fixed-users", response_model=SimpleResponse)
+async def get_fixed_users():
+    """
+    Get all fixed users as a simple response.
+    
+    Returns all 10 predefined users without pagination.
+    Perfect for testing scenarios where you need consistent, predictable data.
+    
+    The response includes:
+    - All 10 fixed user records
+    - A success message
+    - Current timestamp
+    """
+    data = get_fixed_data_objects(1, len(FIXED_USERS_DATA))
+    
+    return SimpleResponse(
+        data=data,
+        message="Fixed user data retrieved successfully",
+        timestamp=datetime.now().isoformat()
+    )
+
+@app.get("/api/fixed-sample", response_model=List[DataObject])
+async def get_fixed_sample(
+    count: int = Query(5, ge=1, le=10, description="Number of sample records to return")
+):
+    """
+    Get a fixed sample of user data.
+    
+    Returns a specified number of fixed user records (1-10).
+    Useful for getting just a few consistent records for testing.
+    
+    - **count**: Number of records to return (1-10, default: 5)
+    """
+    return get_fixed_data_objects(1, count)
+
+@app.get("/api/fixed-by-department/{department}")
+async def get_fixed_by_department(department: str):
+    """
+    Get fixed users filtered by department.
+    
+    Available departments:
+    - Engineering
+    - Data Science  
+    - DevOps
+    - Mobile
+    - Management
+    - Design
+    - Data Engineering
+    - Quality Assurance
+    - Security
+    
+    Returns users from the specified department with consistent data.
+    """
+    department_users = []
+    for user_data in FIXED_USERS_DATA:
+        if user_data["metadata"]["department"].lower() == department.lower():
+            department_users.append(DataObject(**user_data))
+    
+    if not department_users:
+        available_depts = list(set([user["metadata"]["department"] for user in FIXED_USERS_DATA]))
+        return {
+            "error": f"Department '{department}' not found",
+            "available_departments": available_depts,
+            "message": "Please use one of the available departments"
+        }
+    
+    return {
+        "department": department,
+        "users": department_users,
+        "count": len(department_users),
+        "timestamp": datetime.now().isoformat()
+    }
+
+@app.get("/api/fixed-active-users")
+async def get_fixed_active_users():
+    """
+    Get only active users from the fixed dataset.
+    
+    Returns users where is_active = true.
+    Useful for testing scenarios requiring only active user data.
+    """
+    active_users = []
+    for user_data in FIXED_USERS_DATA:
+        if user_data["is_active"]:
+            active_users.append(DataObject(**user_data))
+    
+    return {
+        "active_users": active_users,
+        "total_active": len(active_users),
+        "total_users": len(FIXED_USERS_DATA),
+        "message": "Active users from fixed dataset",
+        "timestamp": datetime.now().isoformat()
+    }
+
 @app.get("/api/endpoints")
 async def get_available_endpoints():
     """Get all available API endpoints with their descriptions."""
@@ -1257,6 +1660,48 @@ async def get_available_endpoints():
                     "created_at_timestamp (Unix timestamp: 1703505000)",
                     "created_at_readable (Readable: Mon, Dec 25 2023 10:30 AM)"
                 ]
+            },
+            {
+                "path": "/api/fixed-data",
+                "name": "Fixed Data API",
+                "description": "Returns consistent, predefined data that never changes. Perfect for testing, demos, and scenarios requiring predictable responses. Contains 10 realistic user records.",
+                "parameters": [
+                    {"name": "page", "type": "integer", "default": 1, "description": "Page number (starts from 1)"},
+                    {"name": "page_size", "type": "integer", "default": 10, "description": "Number of items per page (1-100)"}
+                ],
+                "example": "/api/fixed-data?page=1&page_size=5"
+            },
+            {
+                "path": "/api/fixed-users",
+                "name": "Fixed Users API",
+                "description": "Returns all 10 predefined users in a simple response format without pagination. Includes a success message and timestamp.",
+                "parameters": [],
+                "example": "/api/fixed-users"
+            },
+            {
+                "path": "/api/fixed-sample",
+                "name": "Fixed Sample API",
+                "description": "Returns a specified number of fixed user records (1-10). Useful for getting just a few consistent records for testing.",
+                "parameters": [
+                    {"name": "count", "type": "integer", "default": 5, "description": "Number of sample records to return (1-10)"}
+                ],
+                "example": "/api/fixed-sample?count=3"
+            },
+            {
+                "path": "/api/fixed-by-department/{department}",
+                "name": "Fixed Users by Department",
+                "description": "Returns fixed users filtered by department. Available departments: Engineering, Data Science, DevOps, Mobile, Management, Design, Data Engineering, Quality Assurance, Security.",
+                "parameters": [
+                    {"name": "department", "type": "string", "default": "Engineering", "description": "Department name to filter by"}
+                ],
+                "example": "/api/fixed-by-department/Engineering"
+            },
+            {
+                "path": "/api/fixed-active-users",
+                "name": "Fixed Active Users API",
+                "description": "Returns only active users (is_active = true) from the fixed dataset. Includes statistics about active vs total users.",
+                "parameters": [],
+                "example": "/api/fixed-active-users"
             },
             {
                 "path": "/api/schema",

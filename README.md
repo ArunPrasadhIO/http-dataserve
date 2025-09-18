@@ -13,6 +13,7 @@ A FastAPI-based service that provides JSON data with various data types, paginat
 - 🎛️ **User-Configurable Records**: Specify total number of records (1-10,000)
 - 🗓️ **Multiple Date Formats**: Dedicated API with various date format options
 - 🔄 **API Selection**: Choose between standard or date-formats API from the UI
+- 🔒 **Fixed Data Endpoints**: Consistent, predictable data for testing and demos
 
 ## Data Structure
 
@@ -101,6 +102,73 @@ Returns paginated JSON data with multiple date format variations.
 **Example Request:**
 ```bash
 curl "http://localhost:8000/api/data-with-date-formats?page=1&page_size=3&total_records=100"
+```
+
+### Fixed Data Endpoints
+
+The API now includes several endpoints that return consistent, predefined data. These are perfect for testing, demos, and scenarios requiring predictable responses.
+
+#### GET /api/fixed-data
+
+Returns paginated fixed data that never changes.
+
+**Parameters:**
+- `page` (integer, optional): Page number (default: 1, minimum: 1)
+- `page_size` (integer, optional): Items per page (default: 10, range: 1-100)
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/api/fixed-data?page=1&page_size=5"
+```
+
+#### GET /api/fixed-users
+
+Returns all 10 predefined users without pagination.
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/api/fixed-users"
+```
+
+#### GET /api/fixed-sample
+
+Returns a specified number of fixed user records.
+
+**Parameters:**
+- `count` (integer, optional): Number of records to return (default: 5, range: 1-10)
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/api/fixed-sample?count=3"
+```
+
+#### GET /api/fixed-by-department/{department}
+
+Returns fixed users filtered by department.
+
+**Available Departments:**
+- Engineering
+- Data Science
+- DevOps
+- Mobile
+- Management
+- Design
+- Data Engineering
+- Quality Assurance
+- Security
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/api/fixed-by-department/Engineering"
+```
+
+#### GET /api/fixed-active-users
+
+Returns only active users from the fixed dataset.
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/api/fixed-active-users"
 ```
 
 **Example Response:**
